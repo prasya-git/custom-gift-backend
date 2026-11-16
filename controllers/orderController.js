@@ -1,6 +1,7 @@
 const orders = require('../models/orderModel')
 const gifts = require('../models/giftModel')
 const mongoose = require('mongoose')
+const settings = require('../models/settingsModel')
 
 // Place Order - User
 exports.placeOrderController = async (req, res) => {
@@ -88,7 +89,11 @@ exports.placeOrderController = async (req, res) => {
 
         }
 
-        const deliveryCharge = 50
+        const storeSettings = await settings.findOne({ key: 'store' })
+
+        const deliveryCharge = storeSettings
+            ? storeSettings.deliveryCharge
+            : 50
 
         const newOrder = await orders.create({
 

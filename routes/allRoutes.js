@@ -8,11 +8,13 @@ const giftController = require('../controllers/giftController')
 const orderController = require('../controllers/orderController')
 const userController = require('../controllers/userController')
 const contactController = require('../controllers/contactController')
+const settingsController = require('../controllers/settingsController')
 
 // Middlewares
 const authMiddleware = require('../middlewares/authMiddleware')
 const adminMiddleware = require('../middlewares/adminMiddleware')
 const multerMiddleware = require('../middlewares/multerMiddleware')
+
 
 
 // =====================================================
@@ -36,6 +38,8 @@ router.get('/view-gift/:id', giftController.viewGiftController)
 
 // Contact message
 router.post('/contact', contactController.addContactController)
+
+
 
 
 // =====================================================
@@ -176,6 +180,21 @@ router.get(
     authMiddleware,
     adminMiddleware,
     contactController.getAllContactsController
+)
+// Get Store Settings
+router.get(
+    '/settings',
+    authMiddleware,
+    adminMiddleware,
+    settingsController.getSettingsController
+)
+
+// Update Store Settings
+router.put(
+    '/settings',
+    authMiddleware,
+    adminMiddleware,
+    settingsController.updateSettingsController
 )
 
 
