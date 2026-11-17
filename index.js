@@ -2,6 +2,7 @@
 // Import all packages
 const express = require('express')
 const cors = require('cors')
+const path = require('path')
 
 // loads .env file contents into process.env by default.
 require('dotenv').config()
@@ -22,7 +23,7 @@ server.use(express.json())
 server.use(routes)
 
 // handling static file/folder
-server.use('/uploads', express.static('./uploads'))
+server.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // port
 const PORT = process.env.PORT
