@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose')
 
 const orderSchema = new mongoose.Schema({
@@ -22,9 +23,7 @@ const orderSchema = new mongoose.Schema({
             },
 
             name: String,
-
             image: String,
-
             price: Number,
 
             quantity: {
@@ -61,6 +60,28 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ['Pending', 'Paid', 'Failed'],
         default: 'Pending'
+    },
+
+    stripeSessionId: {
+        type: String,
+        default: null
+    },
+
+    stripePaymentIntentId: {
+        type: String,
+        default: null
+    },
+
+    // Tracks whether stock has been deducted for this order
+    stockReserved: {
+        type: Boolean,
+        default: false
+    },
+
+    // Prevents restoring the same stock more than once
+    stockRestored: {
+        type: Boolean,
+        default: false
     },
 
     orderStatus: {

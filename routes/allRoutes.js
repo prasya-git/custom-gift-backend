@@ -1,3 +1,4 @@
+
 const express = require('express')
 
 const router = new express.Router()
@@ -16,40 +17,30 @@ const adminMiddleware = require('../middlewares/adminMiddleware')
 const multerMiddleware = require('../middlewares/multerMiddleware')
 
 
-
 // =====================================================
 // PUBLIC ROUTES
 // =====================================================
 
-// Register
 router.post('/register', authController.registerController)
-
-// Login
 router.post('/login', authController.loginController)
 
-// Home gifts
 router.get('/home-gifts', giftController.getHomeGiftsController)
-
-// All gifts
 router.get('/all-gifts', giftController.getAllGiftsController)
-
-// Single gift
 router.get('/view-gift/:id', giftController.viewGiftController)
 
-// Contact message
 router.post('/contact', contactController.addContactController)
-
-
 
 
 // =====================================================
 // USER AUTHORIZED ROUTES
 // =====================================================
 
-// User profile
-router.get('/user-profile', authMiddleware, authController.getUserProfileController)
+router.get(
+    '/user-profile',
+    authMiddleware,
+    authController.getUserProfileController
+)
 
-// Edit profile
 router.put(
     '/user-profile',
     authMiddleware,
@@ -57,7 +48,6 @@ router.put(
     authController.userEditController
 )
 
-// Upload customization photo
 router.post(
     '/upload-customization',
     authMiddleware,
@@ -75,12 +65,35 @@ router.post(
 )
 
 
-// Place order
+// COD order
 router.post(
     '/place-order',
     authMiddleware,
     orderController.placeOrderController
 )
+
+
+// Stripe online payment
+router.post(
+    '/create-checkout-session',
+    authMiddleware,
+    orderController.createCheckoutSessionController
+)
+
+// Verify Stripe payment
+router.get(
+    '/verify-payment/:sessionId',
+    authMiddleware,
+    orderController.verifyStripePaymentController
+)
+
+// Cancel an unpaid Stripe checkout session
+router.post(
+    '/cancel-checkout/:sessionId',
+    authMiddleware,
+    orderController.cancelCheckoutSessionController
+)
+
 
 // User orders
 router.get(
@@ -89,14 +102,12 @@ router.get(
     orderController.getUserOrdersController
 )
 
-// View single order
 router.get(
     '/view-order/:id',
     authMiddleware,
     orderController.viewOrderController
 )
 
-// Cancel order
 router.put(
     '/cancel-order/:id',
     authMiddleware,
@@ -108,7 +119,6 @@ router.put(
 // ADMIN AUTHORIZED ROUTES
 // =====================================================
 
-// Add gift
 router.post(
     '/add-gift',
     authMiddleware,
@@ -117,7 +127,6 @@ router.post(
     giftController.addGiftController
 )
 
-// Get all gifts - Admin
 router.get(
     '/gift-list',
     authMiddleware,
@@ -125,7 +134,6 @@ router.get(
     giftController.getAllAdminGiftsController
 )
 
-// Update gift
 router.put(
     '/update-gift/:id',
     authMiddleware,
@@ -134,7 +142,6 @@ router.put(
     giftController.updateGiftController
 )
 
-// Delete gift
 router.delete(
     '/delete-gift/:id',
     authMiddleware,
@@ -142,7 +149,6 @@ router.delete(
     giftController.deleteGiftController
 )
 
-// Get all orders - Admin
 router.get(
     '/order-list',
     authMiddleware,
@@ -150,7 +156,6 @@ router.get(
     orderController.getAllOrdersController
 )
 
-// Update order status
 router.put(
     '/update-order/:id',
     authMiddleware,
@@ -158,7 +163,6 @@ router.put(
     orderController.updateOrderStatusController
 )
 
-// Get all customers
 router.get(
     '/user-list',
     authMiddleware,
@@ -166,7 +170,6 @@ router.get(
     userController.getAllUsersController
 )
 
-// Get single customer
 router.get(
     '/user-details/:id',
     authMiddleware,
@@ -174,14 +177,13 @@ router.get(
     userController.getSingleUserController
 )
 
-// Get contact messages
 router.get(
     '/contact-list',
     authMiddleware,
     adminMiddleware,
     contactController.getAllContactsController
 )
-// Get Store Settings
+
 router.get(
     '/settings',
     authMiddleware,
@@ -189,7 +191,6 @@ router.get(
     settingsController.getSettingsController
 )
 
-// Update Store Settings
 router.put(
     '/settings',
     authMiddleware,
