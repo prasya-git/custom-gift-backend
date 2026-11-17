@@ -359,7 +359,7 @@ exports.createCheckoutSessionController = async (req, res) => {
         }
 
         const clientURL = (
-            process.env.CLIENT_URL || 'http://localhost:5173'
+            process.env.CLIENT_URL || 'https://customgift-frontend.vercel.app'
         ).replace(/\/$/, '')
 
         // Create Stripe Checkout Session
